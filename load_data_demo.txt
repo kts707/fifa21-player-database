@@ -1,0 +1,473 @@
+-- demo on how to load the data and schema, run single SELECT * query on each of the tables, and run the queries in queries.sql
+
+
+-- Part(a)
+
+-- Load the schema in command line using:
+
+\i schema.ddl
+
+-- results in command line:
+psql:schema.ddl:3: NOTICE:  drop cascades to 72 other objects
+DETAIL:  drop cascades to type rating
+drop cascades to type age
+drop cascades to type weakfoot
+.... Skip large amounts of "drop cascades to type ..." ....
+DROP SCHEMA
+CREATE SCHEMA
+SET
+CREATE DOMAIN
+CREATE DOMAIN
+.... Skip large amounts of "CREATE DOMAIN" ...
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+
+
+-- Entering the following commands in exact order as listed to load the data. Note the "|" in the command for loading the Language table:
+
+set search_path to soccer;
+
+-- results in command line:
+
+SET
+
+
+\copy Language from './tables/languages.csv' With CSV DELIMITER '|' HEADER;
+
+-- results in command line:
+
+COPY 244
+
+
+
+\copy playerGeneralInfo from './tables/playerInfo.csv' With CSV DELIMITER ',' HEADER;
+
+-- results in command line:
+
+COPY 18541
+
+
+
+\copy attacker from './tables/attackers.csv' With CSV DELIMITER ',' HEADER;
+
+-- results in command line:
+
+COPY 3914
+
+
+
+\copy midfielder from './tables/midfielders.csv' With CSV DELIMITER ',' HEADER;
+
+-- results in command line:
+
+COPY 6947
+
+
+
+\copy defender from './tables/defenders.csv' With CSV DELIMITER ',' HEADER;
+
+-- results in command line:
+
+COPY 5896
+
+
+
+\copy goalkeeper from './tables/goalkeepers.csv' With CSV DELIMITER ',' HEADER;
+
+-- results in command line:
+
+COPY 1759
+
+
+
+\copy formation from './tables/formation.csv' With CSV DELIMITER ',' HEADER;
+
+-- results in command line:
+
+COPY 9
+
+
+
+-- check if the tables are created successfully
+
+\d
+
+results:
+
+               List of relations
+ Schema |       Name        | Type  |  Owner   
+--------+-------------------+-------+----------
+ soccer | attacker          | table | kuaitian
+ soccer | defender          | table | kuaitian
+ soccer | formation         | table | kuaitian
+ soccer | goalkeeper        | table | kuaitian
+ soccer | language          | table | kuaitian
+ soccer | midfielder        | table | kuaitian
+ soccer | playergeneralinfo | table | kuaitian
+(7 rows)
+
+
+
+\d attacker
+
+-- results:
+
+                          Table "soccer.attacker"
+       Column       |         Type         | Collation | Nullable | Default 
+--------------------+----------------------+-----------+----------+---------
+ playerid           | integer              |           | not null | 
+ overallrating      | rating               |           |          | 
+ position           | character varying(3) |           |          | 
+ height             | integer              |           |          | 
+ weight             | integer              |           |          | 
+ ls                 | ls_rating            |           |          | 
+ st                 | st_rating            |           |          | 
+ rs                 | rs_rating            |           |          | 
+ lw                 | lw_rating            |           |          | 
+ lf                 | lf_rating            |           |          | 
+ cf                 | cf_rating            |           |          | 
+ rf                 | rf_rating            |           |          | 
+ rw                 | rw_rating            |           |          | 
+ crossing           | crossing             |           |          | 
+ finishing          | finishing            |           |          | 
+ headingaccuracy    | headingaccuracy      |           |          | 
+ shortpassing       | shortpassing         |           |          | 
+ volleys            | volleys              |           |          | 
+ dribbling          | dribbling            |           |          | 
+ curve              | curve                |           |          | 
+ fkaccuray          | fkaccuracy           |           |          | 
+ longpassing        | longpassing          |           |          | 
+ ballcontrol        | ballcontrol          |           |          | 
+ acceleration       | acceleration         |           |          | 
+ speed              | speed                |           |          | 
+ agility            | agility              |           |          | 
+ reactions          | reactions            |           |          | 
+ balance            | balance              |           |          | 
+ shotpower          | shotpower            |           |          | 
+ jumping            | jumping              |           |          | 
+ stamina            | stamina              |           |          | 
+ strength           | strength             |           |          | 
+ longshots          | longshots            |           |          | 
+ aggression         | aggression           |           |          | 
+ interception       | interception         |           |          | 
+ positioning        | positioning          |           |          | 
+ vision             | vision               |           |          | 
+ penalties          | penalties            |           |          | 
+ composure          | composure            |           |          | 
+ defensiveawareness | defensiveawareness   |           |          | 
+ standingtackle     | standingtackle       |           |          | 
+ slidingtackle      | slidingtackle        |           |          | 
+ weakfoot           | weakfoot             |           |          | 
+ skillmoves         | skillmoves           |           |          | 
+ attackrate         | character varying(6) |           |          | 
+ defendrate         | character varying(6) |           |          | 
+Indexes:
+    "attacker_pkey" PRIMARY KEY, btree (playerid)
+Foreign-key constraints:
+    "attacker_playerid_fkey" FOREIGN KEY (playerid) REFERENCES playergeneralinfo(playerid)
+
+
+
+\d defender
+
+-- results:
+
+                          Table "soccer.defender"
+       Column       |         Type         | Collation | Nullable | Default 
+--------------------+----------------------+-----------+----------+---------
+ playerid           | integer              |           | not null | 
+ overallrating      | rating               |           |          | 
+ position           | character varying(3) |           |          | 
+ height             | integer              |           |          | 
+ weight             | integer              |           |          | 
+ lwb                | lwb_rating           |           |          | 
+ rwb                | rwb_rating           |           |          | 
+ lb                 | lb_rating            |           |          | 
+ lcb                | lcb_rating           |           |          | 
+ cb                 | cb_rating            |           |          | 
+ rcb                | rcb_rating           |           |          | 
+ rb                 | rb_rating            |           |          | 
+ crossing           | crossing             |           |          | 
+ finishing          | finishing            |           |          | 
+ headingaccuracy    | headingaccuracy      |           |          | 
+ shortpassing       | shortpassing         |           |          | 
+ volleys            | volleys              |           |          | 
+ dribbling          | dribbling            |           |          | 
+ curve              | curve                |           |          | 
+ fkaccuray          | fkaccuracy           |           |          | 
+ longpassing        | longpassing          |           |          | 
+ ballcontrol        | ballcontrol          |           |          | 
+ acceleration       | acceleration         |           |          | 
+ speed              | speed                |           |          | 
+ agility            | agility              |           |          | 
+ reactions          | reactions            |           |          | 
+ balance            | balance              |           |          | 
+ shotpower          | shotpower            |           |          | 
+ jumping            | jumping              |           |          | 
+ stamina            | stamina              |           |          | 
+ strength           | strength             |           |          | 
+ longshots          | longshots            |           |          | 
+ aggression         | aggression           |           |          | 
+ interception       | interception         |           |          | 
+ positioning        | positioning          |           |          | 
+ vision             | vision               |           |          | 
+ penalties          | penalties            |           |          | 
+ composure          | composure            |           |          | 
+ defensiveawareness | defensiveawareness   |           |          | 
+ standingtackle     | standingtackle       |           |          | 
+ slidingtackle      | slidingtackle        |           |          | 
+ weakfoot           | weakfoot             |           |          | 
+ skillmoves         | skillmoves           |           |          | 
+ attackrate         | character varying(6) |           |          | 
+ defendrate         | character varying(6) |           |          | 
+Indexes:
+    "defender_pkey" PRIMARY KEY, btree (playerid)
+Foreign-key constraints:
+    "defender_playerid_fkey" FOREIGN KEY (playerid) REFERENCES playergeneralinfo(playerid)
+
+
+\d midfielder
+
+-- results:
+
+                         Table "soccer.midfielder"
+       Column       |         Type         | Collation | Nullable | Default 
+--------------------+----------------------+-----------+----------+---------
+ playerid           | integer              |           | not null | 
+ overallrating      | rating               |           |          | 
+ position           | character varying(3) |           |          | 
+ height             | integer              |           |          | 
+ weight             | integer              |           |          | 
+ lam                | lam_rating           |           |          | 
+ cam                | cam_rating           |           |          | 
+ ram                | ram_rating           |           |          | 
+ lm                 | lm_rating            |           |          | 
+ lcm                | lcm_rating           |           |          | 
+ cm                 | cm_rating            |           |          | 
+ rcm                | rcm_rating           |           |          | 
+ rm                 | rm_rating            |           |          | 
+ ldm                | ldm_rating           |           |          | 
+ cdm                | cdm_rating           |           |          | 
+ rdm                | rdm_rating           |           |          | 
+ crossing           | crossing             |           |          | 
+ finishing          | finishing            |           |          | 
+ headingaccuracy    | headingaccuracy      |           |          | 
+ shortpassing       | shortpassing         |           |          | 
+ volleys            | volleys              |           |          | 
+ dribbling          | dribbling            |           |          | 
+ curve              | curve                |           |          | 
+ fkaccuray          | fkaccuracy           |           |          | 
+ longpassing        | longpassing          |           |          | 
+ ballcontrol        | ballcontrol          |           |          | 
+ acceleration       | acceleration         |           |          | 
+ speed              | speed                |           |          | 
+ agility            | agility              |           |          | 
+ reactions          | reactions            |           |          | 
+ balance            | balance              |           |          | 
+ shotpower          | shotpower            |           |          | 
+ jumping            | jumping              |           |          | 
+ stamina            | stamina              |           |          | 
+ strength           | strength             |           |          | 
+ longshots          | longshots            |           |          | 
+ aggression         | aggression           |           |          | 
+ interception       | interception         |           |          | 
+ positioning        | positioning          |           |          | 
+ vision             | vision               |           |          | 
+ penalties          | penalties            |           |          | 
+ composure          | composure            |           |          | 
+ defensiveawareness | defensiveawareness   |           |          | 
+ standingtackle     | standingtackle       |           |          | 
+ slidingtackle      | slidingtackle        |           |          | 
+ weakfoot           | weakfoot             |           |          | 
+ skillmoves         | skillmoves           |           |          | 
+ attackrate         | character varying(6) |           |          | 
+ defendrate         | character varying(6) |           |          | 
+Indexes:
+    "midfielder_pkey" PRIMARY KEY, btree (playerid)
+Foreign-key constraints:
+    "midfielder_playerid_fkey" FOREIGN KEY (playerid) REFERENCES playergeneralinfo(playerid)
+
+
+
+\d goalkeeper
+
+-- results:
+
+                   Table "soccer.goalkeeper"
+    Column     |     Type      | Collation | Nullable | Default 
+---------------+---------------+-----------+----------+---------
+ playerid      | integer       |           | not null | 
+ overallrating | rating        |           |          | 
+ height        | integer       |           |          | 
+ weight        | integer       |           |          | 
+ gkdiving      | gkdiving      |           |          | 
+ gkhandling    | gkhandling    |           |          | 
+ gkkicking     | gkkicking     |           |          | 
+ gkpositioning | gkpositioning |           |          | 
+ gkreflexes    | gkreflexes    |           |          | 
+Indexes:
+    "goalkeeper_pkey" PRIMARY KEY, btree (playerid)
+Foreign-key constraints:
+    "goalkeeper_playerid_fkey" FOREIGN KEY (playerid) REFERENCES playergeneralinfo(playerid)
+
+
+\d language
+
+-- results:
+
+                      Table "soccer.language"
+  Column   |         Type          | Collation | Nullable | Default 
+-----------+-----------------------+-----------+----------+---------
+ country   | character varying(60) |           | not null | 
+ language1 | character varying(60) |           | not null | 
+ language2 | character varying(60) |           |          | 
+ language3 | character varying(60) |           |          | 
+Indexes:
+    "language_pkey" PRIMARY KEY, btree (country)
+Check constraints:
+    "language_check" CHECK (language1::text <> language2::text AND language1::text <> language3::text AND language2::text <> language3::text)
+Referenced by:
+    TABLE "playergeneralinfo" CONSTRAINT "playergeneralinfo_nationality_fkey" FOREIGN KEY (nationality) REFERENCES language(country)
+
+
+
+\d playergeneralinfo
+
+-- results:
+
+                    Table "soccer.playergeneralinfo"
+    Column     |         Type          | Collation | Nullable | Default 
+---------------+-----------------------+-----------+----------+---------
+ playerid      | integer               |           | not null | 
+ name          | character varying(40) |           | not null | 
+ age           | age                   |           |          | 
+ nationality   | character varying(60) |           | not null | 
+ club          | character varying(40) |           |          | 
+ value         | integer               |           |          | 
+ wage          | integer               |           |          | 
+ preferredfoot | preferredfoot         |           |          | 
+Indexes:
+    "playergeneralinfo_pkey" PRIMARY KEY, btree (playerid)
+Foreign-key constraints:
+    "playergeneralinfo_nationality_fkey" FOREIGN KEY (nationality) REFERENCES language(country)
+Referenced by:
+    TABLE "attacker" CONSTRAINT "attacker_playerid_fkey" FOREIGN KEY (playerid) REFERENCES playergeneralinfo(playerid)
+    TABLE "defender" CONSTRAINT "defender_playerid_fkey" FOREIGN KEY (playerid) REFERENCES playergeneralinfo(playerid)
+    TABLE "goalkeeper" CONSTRAINT "goalkeeper_playerid_fkey" FOREIGN KEY (playerid) REFERENCES playergeneralinfo(playerid)
+    TABLE "midfielder" CONSTRAINT "midfielder_playerid_fkey" FOREIGN KEY (playerid) REFERENCES playergeneralinfo(playerid)
+
+
+\d formation
+
+-- results:
+
+                          Table "soccer.formation"
+       Column        |         Type         | Collation | Nullable | Default 
+---------------------+----------------------+-----------+----------+---------
+ formationname       | character varying(3) |           | not null | 
+ numberofdefenders   | integer              |           | not null | 
+ numberofmidfielders | integer              |           | not null | 
+ numberofattackers   | integer              |           | not null | 
+Indexes:
+    "formation_pkey" PRIMARY KEY, btree (formationname)
+
+
+
+-- Part(b)
+
+-- Run SELECT * on each table in the schema
+-- Note that queries on some table has a where clause to only show a subset of the rows due to large number of rows it has
+
+select * from Language where language='German';
+--Result:
+    country    |   language1   | language2 | language3 
+---------------+---------------+-----------+-----------
+ Germany       | German        |           | 
+ Liechtenstein | German        |           | 
+ Austria       | German        |           | 
+ Luxembourg    | Luxembourgish | French    | German
+ Belgium       | Dutch         | French    | German
+ Switzerland   | German        | French    | Italian
+(6 rows)
+
+
+select * from playerGeneralInfo where playerID<20;
+--Result:
+ playerid |         name          | age | nationality |   club    | value  | wage | preferredfoot 
+----------+-----------------------+-----+-------------+-----------+--------+------+---------------
+        2 | Giovanni Pasquale     |  33 | Italy       | Udinese   | 625000 | 7000 | Left
+       16 | Luis García Fernández |  37 | Spain       | KAS Eupen | 600000 | 7000 | Right
+(2 rows)
+
+select * from Formation;
+--Result:
+ formationname | numberofdefenders | numberofmidfielders | numberofattackers 
+---------------+-------------------+---------------------+-------------------
+ 433           |                 4 |                   3 |                 3
+ 442           |                 4 |                   4 |                 2
+ 451           |                 4 |                   5 |                 1
+ 424           |                 4 |                   2 |                 4
+ 343           |                 3 |                   4 |                 3
+ 352           |                 3 |                   5 |                 2
+ 361           |                 3 |                   6 |                 1
+ 541           |                 5 |                   4 |                 1
+ 532           |                 5 |                   3 |                 2
+(9 rows)
+
+select * from GoalKeeper where overallRating>88;
+--Result:
+ playerid | overallrating | height | weight | gkdiving | gkhandling | gkkicking | gkpositioning | gkreflexes 
+----------+---------------+--------+--------+----------+------------+-----------+---------------+------------
+   212831 |            90 |    190 |     91 |       86 |         88 |        85 |            91 |         89
+   167495 |            89 |    193 |     92 |       87 |         87 |        91 |            86 |         89
+   192448 |            90 |    187 |     84 |       88 |         85 |        88 |            88 |         90
+   200389 |            91 |    187 |     87 |       87 |         92 |        78 |            90 |         90
+   192119 |            89 |    198 |     96 |       84 |         89 |        74 |            85 |         88
+(5 rows)
+
+select playerid,overallrating,lb,cb,rb,defendrate from Defender where overallRating>87;
+--Result:
+ playerid | overallrating | lb | cb | rb | defendrate 
+----------+---------------+----+----+----+------------
+   203376 |            90 | 82 | 89 | 82 | Medium
+   155862 |            89 | 83 | 88 | 83 | Medium
+   201024 |            88 | 78 | 87 | 78 | High
+   121939 |            88 | 85 | 80 | 85 | High
+(4 rows)
+
+select playerid,overallrating,cam,cm,cdm,shortpassing from Midfielder where overallRating>87;
+--Result:
+ playerid | overallrating | cam | cm | cdm | shortpassing 
+----------+---------------+-----+----+-----+--------------
+   231747 |            90 |  87 | 79 |  63 |           83
+   212622 |            88 |  82 | 85 |  85 |           87
+   192985 |            91 |  89 | 89 |  80 |           94
+   215914 |            88 |  79 | 82 |  86 |           85
+   200145 |            89 |  76 | 81 |  86 |           84
+   182521 |            88 |  83 | 86 |  81 |           93
+(6 rows)
+
+select playerid,overallrating,lw,st,rw,finishing from Attacker where overallRating>87;
+--Result:
+ playerid | overallrating | lw | st | rw | finishing 
+----------+---------------+----+----+----+-----------
+   158023 |            93 | 92 | 89 | 92 |        95
+    20801 |            92 | 89 | 91 | 89 |        95
+   190871 |            91 | 90 | 84 | 90 |        87
+   202126 |            88 | 82 | 86 | 82 |        94
+   188545 |            91 | 85 | 89 | 85 |        94
+   165153 |            89 | 85 | 86 | 85 |        88
+   211110 |            88 | 87 | 83 | 87 |        84
+   183277 |            88 | 87 | 82 | 87 |        82
+   209331 |            90 | 88 | 85 | 88 |        91
+   208722 |            90 | 89 | 88 | 89 |        90
+   202652 |            88 | 87 | 81 | 87 |        85
+   153079 |            89 | 86 | 87 | 86 |        94
+(12 rows)
+
+

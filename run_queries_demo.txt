@@ -1,0 +1,268 @@
+-- Import schema and data, then run queries
+
+\i queries.sql
+
+
+-- Question 1
+
+-- Finding the best lineup with all players having ratings over 75, and using the formations with three attackers for a FIFA Professional Gamer
+
+-- Since the only two formations with 3 attackers are 4-3-3 and 3-4-3, we have identified the best lineups among the ones that meet the requirements:
+
+-- Best lineup for 4-3-3
+SELECT * FROM lineup_for_433;
+
+-- result for lineup_for_433:
+
+       name        | overallrating 
+-------------------+---------------
+ Andrew Robertson  |            87
+ Marcus Rashford   |            85
+ Raheem Sterling   |            88
+ Jordan Henderson  |            86
+ Harry Kane        |            88
+ Aaron Wan-Bissaka |            83
+ Kieran Trippier   |            83
+ Kyle Walker       |            85
+ Thomas Partey     |            84
+ Nick Pope         |            82
+ Jadon Sancho      |            87
+(11 rows)
+
+
+
+-- Best lineup for 3-4-3
+SELECT * FROM lineup_for_343;
+
+-- result for lineup_for_343:
+
+       name        | overallrating 
+-------------------+---------------
+ Andrew Robertson  |            87
+ Marcus Rashford   |            85
+ Raheem Sterling   |            88
+ Jordan Henderson  |            86
+ Harry Kane        |            88
+ Aaron Wan-Bissaka |            83
+ Wilfred Ndidi     |            84
+ Kyle Walker       |            85
+ Thomas Partey     |            84
+ Nick Pope         |            82
+ Jadon Sancho      |            87
+(11 rows)
+
+
+-- We also further investigated the competitiveness for different Language/culture community, namely, we found the average ratings for the players who speak English, Spanish, Portuguese, French, Italian, and German, to infer some useful conclusions from it.
+
+-- comparision table for player's average ratings for all players who have overall rating >= 65
+
+-- result for comparision_table:
+
+SELECT * FROM comparision_table;
+  category  | num_of_players |   avg_ratings    
+------------+----------------+------------------
+ Italian    |            574 | 71.4320557491289
+ French     |           1413 | 71.1712668082095
+ Spanish    |           2878 | 71.0979847116053
+ Portuguese |           1219 | 72.7178014766202
+ Germany    |            826 | 70.4757869249395
+ English    |           1600 |         69.65625
+(6 rows)
+
+
+
+
+-- Question 2
+
+-- Price-performance ratio is a typical metrics for measuring how good a product is, in terms of its ability to deliver performance. It is generally calculated as the total cost divided by the performance metric. Lower price-performance ratio implies better product.
+
+-- In soccer, we can measure a player's ability to deliver performance by the player's overallrating, and the player's value is also recorded in our database. Therefore, in this question, we are trying to find the lowest price_performance lineup for 4-3-3 formation with players who have ratings over 80.
+
+
+-- lowest_price_performance_ratio lineup for formation 4-3-3
+SELECT * FROM lowest_price_performance_ratio_433;
+
+-- results for lowest_price_performance_ratio_433:
+
+             name             | overallrating 
+------------------------------+---------------
+ Francesco Totti              |            80
+ Clarence Seedorf             |            82
+ Branislav Ivanović           |            80
+ Fabrizio Miccoli             |            81
+ Fabio Quagliarella           |            80
+ Andrea Barzagli              |            83
+ Júlio César Soares Espíndola |            80
+ Képler Laveran Lima Ferreira |            81
+ Steven Gerrard               |            81
+ Carles Puyol Saforcada       |            83
+ Paul Scholes                 |            80
+(11 rows)
+
+
+
+-- We further investigate the avergae price_performance_ratio_table for each category of positions in soccer
+SELECT * FROM price_performance_ratio_table;
+
+-- results for price_performance_ratio_table:
+
+  category   | avg_cost_effectiveness 
+-------------+------------------------
+ midfielders |       296647.994845361
+ defenders   |       240875.233333333
+ attackers   |        325503.76984127
+ goalkeepers |       236898.506666667
+(4 rows)
+
+
+
+
+-- Question 3
+
+-- Backline Communication Investigation. Find all clubs that do not have a communication problem between best goalkeeper and each of three top defenders.
+
+-- Display all clubs that has good communication at backline.
+SELECT * FROM good_communication_clubs;
+
+-- Display the count of clubs with good communication and count of total clubs.
+SELECT * FROM club_communication_comparison;
+
+-- result for club_communication_comparision:
+
+               club               
+----------------------------------
+ ADO Den Haag
+ AS Saint-Étienne
+ AZ Alkmaar
+ Al Ahli
+ Al Ain FC
+ Al Fayha
+ Amiens SC
+ Aragua FC
+ Arsenal de Sarandí
+ Bahia
+ Barrow
+ Bayern München II
+ Beijing Sinobo Guoan FC
+ Benevento
+ Bolton Wanderers
+ Borussia Mönchengladbach
+ Bristol City
+ CD Leganés
+ CE Sabadell FC
+ Ceará Sporting Club
+ Charlton Athletic
+ Cheltenham Town
+ Chindia Târgovişte
+ Cork City
+ Deportivo Alavés
+ Deportivo de La Coruña
+ Derry City
+ Dynamo Kyiv
+ Elche CF
+ Ettifaq FC
+ FC Admira Wacker Mödling
+ FC Bayern München
+ FC Chambly Oise
+ FC Emmen
+ FC Hansa Rostock
+ FC Lugano
+ FC Sochaux-Montbéliard
+ FC Tokyo
+ FC Utrecht
+ FC Vaduz
+ FC Viitorul
+ Finn Harps
+ Gamba Osaka
+ Gil Vicente FC
+ Guangzhou Evergrande Taobao FC
+ HJK Helsinki
+ Hellas Verona
+ Huddersfield Town
+ Inter Miami
+ Kalmar FF
+ Legia Warszawa
+ Levante UD
+ Livingston FC
+ Melbourne City FC
+ Milton Keynes Dons
+ Montpellier HSC
+ Nacional de Montevideo
+ New England Revolution
+ Oita Trinita
+ Paris FC
+ Patronato
+ Perugia
+ Philadelphia Union
+ Pohang Steelers
+ Port Vale
+ Portland Timbers
+ Portsmouth
+ Preston North End
+ RC Strasbourg Alsace
+ RCD Mallorca
+ Rangers FC
+ Rayo Vallecano
+ Real Oviedo
+ Real Salt Lake
+ Real Sociedad
+ Real Sporting de Gijón
+ River Plate Asunción
+ Rochdale
+ SC Freiburg
+ SC Preußen Münster
+ SCR Altach
+ SD Aucas
+ SD Huesca
+ SV Ried
+ SV Sandhausen
+ SV Wehen Wiesbaden
+ Sagan Tosu
+ San Jose Earthquakes
+ Sanfrecce Hiroshima
+ Santos Laguna
+ Servette FC
+ Shakhtar Donetsk
+ Shandong Luneng TaiShan FC
+ Shanghai Greenland Shenhua FC
+ Shanghai SIPG FC
+ Sheffield United
+ Shenzhen FC
+ Sligo Rovers
+ SpVgg Greuther Fürth
+ Spartak Moscow
+ Sport Huancayo
+ Sporting Kansas City
+ St. Mirren
+ St. Patrick's Athletic
+ Stal Mielec
+ Standard de Liège
+ Stoke City
+ Sunderland
+ Suwon Samsung Bluewings
+ Sydney FC
+ TSV 1860 München
+ Tianjin TEDA FC
+ Toulouse Football Club
+ Universidad Católica del Ecuador
+ Unión de Santa Fe
+ Urawa Red Diamonds
+ VVV-Venlo
+ Vancouver Whitecaps FC
+ Venezia FC
+ VfB Lübeck
+ VfL Bochum 1848
+ Vitória Guimarães
+ Vålerenga Fotball
+ Waasland-Beveren
+ Watford
+ West Bromwich Albion
+ Wigan Athletic
+ Willem II
+ Wuhan Zall
+(129 rows)
+
+--Output result of number of clubs with good communication with respect to all clubs.
+ good_comm | all_clubs 
+-----------+-----------
+       129 |       891

@@ -1,0 +1,173 @@
+-- demo on how to load the data and run some simple queries
+
+
+-- Part(a)
+
+-- Load the schema in command line using 
+\i schema.ddl
+-- Entering the following commands in exact order as listed to load the data. Note the "|" in the command for loading the Language table.
+
+
+set search_path to soccer;
+
+\copy Language from './tables/languages.csv' With CSV DELIMITER '|' HEADER;
+
+\copy playerGeneralInfo from './tables/playerInfo.csv' With CSV DELIMITER ',' HEADER;
+
+\copy attacker from './tables/attackers.csv' With CSV DELIMITER ',' HEADER;
+
+\copy midfielder from './tables/midfielders.csv' With CSV DELIMITER ',' HEADER;
+
+\copy defender from './tables/defenders.csv' With CSV DELIMITER ',' HEADER;
+
+\copy goalkeeper from './tables/goalkeepers.csv' With CSV DELIMITER ',' HEADER;
+
+\copy formation from './tables/formation.csv' With CSV DELIMITER ',' HEADER;
+
+
+
+-- Part(b)
+-- Show the size of tables
+
+--Language
+select count(*) from Language;
+--Result:
+ count 
+-------
+   246
+(1 row)
+
+--playerGeneralInfo
+select count(*) from playerGeneralInfo;
+--Result:
+ count 
+-------
+ 18541
+(1 row)
+
+--Formation
+select count(*) from Formation;
+--Result:
+ count 
+-------
+     9
+(1 row)
+
+--GoalKeeper
+select count(*) from GoalKeeper;
+--Result:
+ count 
+-------
+  1759
+(1 row)
+
+--Defender
+select count(*) from Defender;
+--Result:
+ count 
+-------
+  5896
+(1 row)
+
+--Midfielder
+select count(*) from Midfielder;
+--Result:
+ count 
+-------
+  6947
+(1 row)
+
+--Attacker
+select count(*) from Attacker;
+--Result:
+ count 
+-------
+  3914
+(1 row)
+
+
+-- Run SELECT * on each table in the schema
+
+select * from Language where language='German';
+--Result:
+    country    | language 
+---------------+----------
+ Austria       | German
+ Liechtenstein | German
+ Germany       | German
+ Switzerland   | German
+(4 rows)
+
+select * from playerGeneralInfo where playerID<20;
+--Result:
+ playerid |         name          | age | nationality |   club    | value  | wage | preferredfoot 
+----------+-----------------------+-----+-------------+-----------+--------+------+---------------
+        2 | Giovanni Pasquale     |  33 | Italy       | Udinese   | 625000 | 7000 | Left
+       16 | Luis García Fernández |  37 | Spain       | KAS Eupen | 600000 | 7000 | Right
+(2 rows)
+
+select * from Formation;
+--Result:
+ formationname | numberofdefenders | numberofmidfielders | numberofattackers 
+---------------+-------------------+---------------------+-------------------
+ 433           |                 4 |                   3 |                 3
+ 442           |                 4 |                   4 |                 2
+ 451           |                 4 |                   5 |                 1
+ 424           |                 4 |                   2 |                 4
+ 343           |                 3 |                   4 |                 3
+ 352           |                 3 |                   5 |                 2
+ 361           |                 3 |                   6 |                 1
+ 541           |                 5 |                   4 |                 1
+ 532           |                 5 |                   3 |                 2
+(9 rows)
+
+select * from GoalKeeper where overallRating>88;
+--Result:
+ playerid | overallrating | height | weight | gkdiving | gkhandling | gkkicking | gkpositioning | gkreflexes 
+----------+---------------+--------+--------+----------+------------+-----------+---------------+------------
+   212831 |            90 |    190 |     91 |       86 |         88 |        85 |            91 |         89
+   167495 |            89 |    193 |     92 |       87 |         87 |        91 |            86 |         89
+   192448 |            90 |    187 |     84 |       88 |         85 |        88 |            88 |         90
+   200389 |            91 |    187 |     87 |       87 |         92 |        78 |            90 |         90
+   192119 |            89 |    198 |     96 |       84 |         89 |        74 |            85 |         88
+(5 rows)
+
+select playerid,overallrating,lb,cb,rb,defendrate from Defender where overallRating>87;
+--Result:
+ playerid | overallrating | lb | cb | rb | defendrate 
+----------+---------------+----+----+----+------------
+   203376 |            90 | 82 | 89 | 82 | Medium
+   155862 |            89 | 83 | 88 | 83 | Medium
+   201024 |            88 | 78 | 87 | 78 | High
+   121939 |            88 | 85 | 80 | 85 | High
+(4 rows)
+
+select playerid,overallrating,cam,cm,cdm,shortpassing from Midfielder where overallRating>87;
+--Result:
+ playerid | overallrating | cam | cm | cdm | shortpassing 
+----------+---------------+-----+----+-----+--------------
+   231747 |            90 |  87 | 79 |  63 |           83
+   212622 |            88 |  82 | 85 |  85 |           87
+   192985 |            91 |  89 | 89 |  80 |           94
+   215914 |            88 |  79 | 82 |  86 |           85
+   200145 |            89 |  76 | 81 |  86 |           84
+   182521 |            88 |  83 | 86 |  81 |           93
+(6 rows)
+
+select playerid,overallrating,lw,st,rw,finishing from Attacker where overallRating>87;
+--Result:
+ playerid | overallrating | lw | st | rw | finishing 
+----------+---------------+----+----+----+-----------
+   158023 |            93 | 92 | 89 | 92 |        95
+    20801 |            92 | 89 | 91 | 89 |        95
+   190871 |            91 | 90 | 84 | 90 |        87
+   202126 |            88 | 82 | 86 | 82 |        94
+   188545 |            91 | 85 | 89 | 85 |        94
+   165153 |            89 | 85 | 86 | 85 |        88
+   211110 |            88 | 87 | 83 | 87 |        84
+   183277 |            88 | 87 | 82 | 87 |        82
+   209331 |            90 | 88 | 85 | 88 |        91
+   208722 |            90 | 89 | 88 | 89 |        90
+   202652 |            88 | 87 | 81 | 87 |        85
+   153079 |            89 | 86 | 87 | 86 |        94
+(12 rows)

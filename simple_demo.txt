@@ -1,0 +1,293 @@
+-- demo on how to load the schema and some example interactions
+
+
+-- steps for setup:
+
+-- ssh into dbsrv1
+-- go to the folder containing the schema.ddl
+-- start up postgresSQL
+-- run the following in command line
+
+ -- \i schema.ddl
+ -- set search_path to soccer;
+
+
+
+-- Example Interactions
+
+\d
+
+-- result:
+           List of relations
+ Schema |    Name    | Type  |  Owner   
+--------+------------+-------+----------
+ soccer | attacker   | table | kuaitian
+ soccer | defender   | table | kuaitian
+ soccer | formation  | table | kuaitian
+ soccer | goalkeeper | table | kuaitian
+ soccer | language   | table | kuaitian
+ soccer | league     | table | kuaitian
+ soccer | midfielder | table | kuaitian
+
+
+\d formation
+
+--result:
+
+                          Table "soccer.formation"
+       Column        |         Type         | Collation | Nullable | Default 
+---------------------+----------------------+-----------+----------+---------
+ formationname       | character varying(3) |           | not null | 
+ numberofdefenders   | integer              |           | not null | 
+ numberofmidfielders | integer              |           | not null | 
+ numberofattackers   | integer              |           | not null | 
+Indexes:
+    "formation_pkey" PRIMARY KEY, btree (formationname)
+
+
+\d language
+
+-- result:
+
+                      Table "soccer.language"
+  Column  |         Type          | Collation | Nullable | Default 
+----------+-----------------------+-----------+----------+---------
+ country  | character varying(15) |           | not null | 
+ language | character varying(20) |           | not null | 
+Indexes:
+    "language_pkey" PRIMARY KEY, btree (country)
+Referenced by:
+    TABLE "attacker" CONSTRAINT "attacker_nationality_fkey" FOREIGN KEY (nationality) REFERENCES language(country)
+    TABLE "defender" CONSTRAINT "defender_nationality_fkey" FOREIGN KEY (nationality) REFERENCES language(country)
+    TABLE "goalkeeper" CONSTRAINT "goalkeeper_nationality_fkey" FOREIGN KEY (nationality) REFERENCES language(country)
+    TABLE "midfielder" CONSTRAINT "midfielder_nationality_fkey" FOREIGN KEY (nationality) REFERENCES language(country)
+
+
+\d league
+
+--result:
+
+                      Table "soccer.league"
+ Column |         Type          | Collation | Nullable | Default 
+--------+-----------------------+-----------+----------+---------
+ club   | character varying(40) |           | not null | 
+ league | character varying(40) |           | not null | 
+Indexes:
+    "league_pkey" PRIMARY KEY, btree (club)
+Referenced by:
+    TABLE "attacker" CONSTRAINT "attacker_club_fkey" FOREIGN KEY (club) REFERENCES league(club)
+    TABLE "defender" CONSTRAINT "defender_club_fkey" FOREIGN KEY (club) REFERENCES league(club)
+    TABLE "goalkeeper" CONSTRAINT "goalkeeper_club_fkey" FOREIGN KEY (club) REFERENCES league(club)
+    TABLE "midfielder" CONSTRAINT "midfielder_club_fkey" FOREIGN KEY (club) REFERENCES league(club)
+
+
+\d attacker
+
+-- result:
+
+                         Table "soccer.attacker"
+     Column      |         Type          | Collation | Nullable | Default 
+-----------------+-----------------------+-----------+----------+---------
+ playerid        | integer               |           | not null | 
+ name            | character varying(40) |           | not null | 
+ age             | age                   |           |          | 
+ nationality     | character varying(15) |           | not null | 
+ club            | character varying(40) |           | not null | 
+ overallrating   | rating                |           |          | 
+ crossing        | crossing              |           |          | 
+ finishing       | finishing             |           |          | 
+ headingaccuracy | headingaccuracy       |           |          | 
+ shortpassing    | shortpassing          |           |          | 
+ volleys         | volleys               |           |          | 
+ dribbling       | dribbling             |           |          | 
+ curve           | curve                 |           |          | 
+ fkaccuray       | fkaccuracy            |           |          | 
+ longpassing     | longpassing           |           |          | 
+ ballcontrol     | ballcontrol           |           |          | 
+ acceleration    | acceleration          |           |          | 
+ speed           | speed                 |           |          | 
+ agility         | agility               |           |          | 
+ reactions       | reactions             |           |          | 
+ balance         | balance               |           |          | 
+ shotpower       | shotpower             |           |          | 
+ jumping         | jumping               |           |          | 
+ stamina         | stamina               |           |          | 
+ strength        | strength              |           |          | 
+ longshots       | longshots             |           |          | 
+ aggression      | aggression            |           |          | 
+ interception    | interception          |           |          | 
+ positioning     | positioning           |           |          | 
+ vision          | vision                |           |          | 
+ penalties       | penalties             |           |          | 
+ composure       | composure             |           |          | 
+ standingtackle  | standingtackle        |           |          | 
+ slidingtackle   | slidingtackle         |           |          | 
+ ls_rating       | ls_rating             |           |          | 
+ st_rating       | st_rating             |           |          | 
+ rs_rating       | rs_rating             |           |          | 
+ lw_rating       | lw_rating             |           |          | 
+ lf_rating       | lf_rating             |           |          | 
+ cf_rating       | cf_rating             |           |          | 
+ rf_rating       | rf_rating             |           |          | 
+ rw_rating       | rw_rating             |           |          | 
+Indexes:
+    "attacker_pkey" PRIMARY KEY, btree (playerid)
+Foreign-key constraints:
+    "attacker_club_fkey" FOREIGN KEY (club) REFERENCES league(club)
+    "attacker_nationality_fkey" FOREIGN KEY (nationality) REFERENCES language(country)
+
+
+\d defender
+
+-- result:
+
+                         Table "soccer.defender"
+     Column      |         Type          | Collation | Nullable | Default 
+-----------------+-----------------------+-----------+----------+---------
+ playerid        | integer               |           | not null | 
+ name            | character varying(40) |           | not null | 
+ age             | age                   |           |          | 
+ nationality     | character varying(15) |           | not null | 
+ club            | character varying(40) |           | not null | 
+ overallrating   | rating                |           |          | 
+ crossing        | crossing              |           |          | 
+ finishing       | finishing             |           |          | 
+ headingaccuracy | headingaccuracy       |           |          | 
+ shortpassing    | shortpassing          |           |          | 
+ volleys         | volleys               |           |          | 
+ dribbling       | dribbling             |           |          | 
+ curve           | curve                 |           |          | 
+ fkaccuray       | fkaccuracy            |           |          | 
+ longpassing     | longpassing           |           |          | 
+ ballcontrol     | ballcontrol           |           |          | 
+ acceleration    | acceleration          |           |          | 
+ speed           | speed                 |           |          | 
+ agility         | agility               |           |          | 
+ reactions       | reactions             |           |          | 
+ balance         | balance               |           |          | 
+ shotpower       | shotpower             |           |          | 
+ jumping         | jumping               |           |          | 
+ stamina         | stamina               |           |          | 
+ strength        | strength              |           |          | 
+ longshots       | longshots             |           |          | 
+ aggression      | aggression            |           |          | 
+ interception    | interception          |           |          | 
+ positioning     | positioning           |           |          | 
+ vision          | vision                |           |          | 
+ penalties       | penalties             |           |          | 
+ composure       | composure             |           |          | 
+ standingtackle  | standingtackle        |           |          | 
+ slidingtackle   | slidingtackle         |           |          | 
+ lwb_rating      | ls_rating             |           |          | 
+ rwb_rating      | st_rating             |           |          | 
+ lb_rating       | rs_rating             |           |          | 
+ lcb_rating      | lw_rating             |           |          | 
+ cb_rating       | lf_rating             |           |          | 
+ rcb_rating      | cf_rating             |           |          | 
+ rb_rating       | rf_rating             |           |          | 
+Indexes:
+    "defender_pkey" PRIMARY KEY, btree (playerid)
+Foreign-key constraints:
+    "defender_club_fkey" FOREIGN KEY (club) REFERENCES league(club)
+    "defender_nationality_fkey" FOREIGN KEY (nationality) REFERENCES language(country)
+
+
+\d midfielder
+
+--result:
+
+                        Table "soccer.midfielder"
+     Column      |         Type          | Collation | Nullable | Default 
+-----------------+-----------------------+-----------+----------+---------
+ playerid        | integer               |           | not null | 
+ name            | character varying(40) |           | not null | 
+ age             | age                   |           |          | 
+ nationality     | character varying(15) |           | not null | 
+ club            | character varying(40) |           | not null | 
+ overallrating   | rating                |           |          | 
+ crossing        | crossing              |           |          | 
+ finishing       | finishing             |           |          | 
+ headingaccuracy | headingaccuracy       |           |          | 
+ shortpassing    | shortpassing          |           |          | 
+ volleys         | volleys               |           |          | 
+ dribbling       | dribbling             |           |          | 
+ curve           | curve                 |           |          | 
+ fkaccuray       | fkaccuracy            |           |          | 
+ longpassing     | longpassing           |           |          | 
+ ballcontrol     | ballcontrol           |           |          | 
+ acceleration    | acceleration          |           |          | 
+ speed           | speed                 |           |          | 
+ agility         | agility               |           |          | 
+ reactions       | reactions             |           |          | 
+ balance         | balance               |           |          | 
+ shotpower       | shotpower             |           |          | 
+ jumping         | jumping               |           |          | 
+ stamina         | stamina               |           |          | 
+ strength        | strength              |           |          | 
+ longshots       | longshots             |           |          | 
+ aggression      | aggression            |           |          | 
+ interception    | interception          |           |          | 
+ positioning     | positioning           |           |          | 
+ vision          | vision                |           |          | 
+ penalties       | penalties             |           |          | 
+ composure       | composure             |           |          | 
+ standingtackle  | standingtackle        |           |          | 
+ slidingtackle   | slidingtackle         |           |          | 
+ lam_rating      | lam_rating            |           |          | 
+ cam_rating      | cam_rating            |           |          | 
+ ram_rating      | ram_rating            |           |          | 
+ lm_rating       | lm_rating             |           |          | 
+ lcm_rating      | lcm_rating            |           |          | 
+ cm_rating       | cm_rating             |           |          | 
+ rcm_rating      | rcm_rating            |           |          | 
+ rm_rating       | rm_rating             |           |          | 
+ ldm_rating      | ldm_rating            |           |          | 
+ cdm_rating      | cdm_rating            |           |          | 
+ rdm_rating      | rdm_rating            |           |          | 
+Indexes:
+    "midfielder_pkey" PRIMARY KEY, btree (playerid)
+Foreign-key constraints:
+    "midfielder_club_fkey" FOREIGN KEY (club) REFERENCES league(club)
+    "midfielder_nationality_fkey" FOREIGN KEY (nationality) REFERENCES language(country)
+
+
+\d goalkeeper
+
+-- result:
+
+                       Table "soccer.goalkeeper"
+    Column     |         Type          | Collation | Nullable | Default 
+---------------+-----------------------+-----------+----------+---------
+ playerid      | integer               |           | not null | 
+ name          | character varying(40) |           | not null | 
+ age           | age                   |           |          | 
+ nationality   | character varying(15) |           | not null | 
+ club          | character varying(40) |           | not null | 
+ overallrating | rating                |           |          | 
+ gkdiving      | gkdiving              |           |          | 
+ gkhandling    | gkhandling            |           |          | 
+ gkkicking     | gkkicking             |           |          | 
+ gkpositioning | gkpositioning         |           |          | 
+ gkreflexes    | gkreflexes            |           |          | 
+Indexes:
+    "goalkeeper_pkey" PRIMARY KEY, btree (playerid)
+Foreign-key constraints:
+    "goalkeeper_club_fkey" FOREIGN KEY (club) REFERENCES league(club)
+    "goalkeeper_nationality_fkey" FOREIGN KEY (nationality) REFERENCES language(country)
+
+
+
+
+-- can do select * from any table, however since no data is loaded into the table, it will not show any rows of data
+
+-- one example using the select:
+
+select * from league;
+
+-- result:
+
+ club | league 
+------+--------
+(0 rows)
+
+
